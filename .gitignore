@@ -160,10 +160,8 @@ cython_debug/
 #.idea/
 *.mat
 *.ipynb_checkpoints
-IMDBDataset.csv
 **.idea
 **data
 *.pyc
 *.DS_Store
-HW4/data/
-HW5/d
+**.csv
