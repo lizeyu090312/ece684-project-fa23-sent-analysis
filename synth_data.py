@@ -86,6 +86,7 @@ if __name__ == '__main__':
     device = torch.device("cuda:%d" % args.device if torch.cuda.is_available() and args.device in {0, 1} else "cpu")
 
     rng = np.random.default_rng()
-    for iter in tqdm(range(int(args.total_samples / args.num_beams / 2)), desc='Gen_Synthetic_Data'):
+    # ~/.cache/huggingface/hub stores the cached models
+    for i in tqdm(range(int(args.total_samples / args.num_beams / 2)), desc='Gen_Synthetic_Data'):
         write_data(True)
         write_data(False)
