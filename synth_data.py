@@ -48,8 +48,10 @@ def write_data(positive):
                             repetition_penalty=args.repetition_penalty, attention_mask=attention_mask, no_repeat_ngram_size=2)
     for i, review in enumerate(output):
         generated_review = tokenizer.decode(review, skip_special_tokens=True)
+        generated_review = token.tokenize(generated_review)
         # print(f"Generated review {i+1}: {generated_review}")
-        f_ptr.write("\" %s \",%s\n" % (generated_review[prompt_len_char:], pos_neg_dict[positive]))
+        f_ptr.write("\"%s\",%s\n" % (' '.join(generated_review[which_interval:]), pos_neg_dict[positive]))
+        # f_ptr.write("\" %s \",%s\n" % (generated_review[prompt_len_whicchar:], pos_neg_dict[positive]))
     return
 
 
@@ -77,14 +79,13 @@ if __name__ == '__main__':
     token = RegexpTokenizer(r'[a-zA-Z0-9]+')
     data_dict = {False: token.tokenize_sents(dataset.query('sentiment=="negative"')['review']), 
                  True: token.tokenize_sents(dataset.query('sentiment=="positive"')['review'])}
-    print(len(data_dict[True]))
 
     path_dict = {True: "lvwerra/gpt2-imdb-pos", False: "mrm8488/gpt2-imdb-neg"}
     pos_neg_dict = {True: 'positive', False: 'negative'}
     # default usage: python synth_data.py -t 50000 -n 10 -d 20.0 -r 2.5 -f 1.0 -v 0 
-    device = torch.device("cuda:%d" % args.device if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:%d" % args.device if torch.cuda.is_available() and args.device in {0, 1} else "cpu")
 
     rng = np.random.default_rng()
-    for iter in tqdm(range(int(args.total_samples / args.num_beams)), desc='Gen_Synthetic_Data'):
+    for iter in tqdm(range(int(args.total_samples / args.num_beams / 2)), desc='Gen_Synthetic_Data'):
         write_data(True)
         write_data(False)
