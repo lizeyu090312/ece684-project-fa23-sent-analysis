@@ -2,3 +2,4 @@
 
 The LSTM_GRU notebook performs hyperparameter search for the LSTM model. The utils file contains the training pipeline used for the LSTM_GRU notebook. The naive_bayes_clf notebook plots the relevant figures for the Naive Bayes classifier; in addition, it also cleans up the synthetic dataset. The synth_data file contains the Python script for generating synthetic data. Change the relevant file name in each file to either train/test using the synthetic or the real-life dataset (line 407 in utils and at the top of the naive_bayes_clf Notebook). 
 Use the environment_droplet.yml to install the conda environment for this project. 
+Although the dataset used was not exaclty the 50k dataset from https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews, the linked dataset is a good approximation of what we used as our ``real-life'' dataset. 
