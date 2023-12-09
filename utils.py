@@ -404,7 +404,8 @@ def build_vocab(x_train:list, min_freq: int=5, hparams: HyperParams =None, trunc
     vocab[hparams.UNK_TOKEN] = hparams.UNK_INDEX
     return vocab
 
-x_train, x_valid, x_test, y_train, y_valid, y_test = load_imdb()
+# x_train, x_valid, x_test, y_train, y_valid, y_test = load_imdb()  
+x_train, x_valid, x_test, y_train, y_valid, y_test = load_imdb("./IMDB_synthetic_final.csv")
 vocab = build_vocab(x_train, hparams=ORIG_HPARAMS, truncate=False)
 
 def collate(batch, pad_index):
@@ -566,7 +567,7 @@ def train_and_test_model_with_hparams(hparams, model_type="lstm", **kwargs):
     print(f'The model has {num_params:,} trainable parameters')
 
 
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     model = model.to(device)
 
     # Optimization. Lab 2 (a)(b) should choose one of them.
@@ -694,7 +695,7 @@ def plot_train_val_acc(save_name, ret_dict, orig_hp, new_hp, save, gru=False):
     fig.tight_layout()
     if save == 'y':
         if len(diff_param) != 0:
-            plt.savefig('%s_%s.pdf' % (save_name, diff_param.strip()), dpi=500, bbox_inches='tight')
+            plt.savefig('%s_%s.pdf' % (save_name, re.sub(r'[^a-zA-Z0-9,=]', '', diff_param)), dpi=500, bbox_inches='tight')
         else:
             plt.savefig('%s_default_hp.pdf' % (save_name), dpi=500, bbox_inches='tight')
     return 
