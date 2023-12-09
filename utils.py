@@ -404,8 +404,8 @@ def build_vocab(x_train:list, min_freq: int=5, hparams: HyperParams =None, trunc
     vocab[hparams.UNK_TOKEN] = hparams.UNK_INDEX
     return vocab
 
-# x_train, x_valid, x_test, y_train, y_valid, y_test = load_imdb()  
-x_train, x_valid, x_test, y_train, y_valid, y_test = load_imdb("./IMDB_synthetic_final.csv")
+x_train, x_valid, x_test, y_train, y_valid, y_test = load_imdb()  
+# x_train, x_valid, x_test, y_train, y_valid, y_test = load_imdb("./IMDB_synthetic_final.csv")
 vocab = build_vocab(x_train, hparams=ORIG_HPARAMS, truncate=False)
 
 def collate(batch, pad_index):
